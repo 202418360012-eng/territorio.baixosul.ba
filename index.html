@@ -1,0 +1,1641 @@
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+  scroll-behavior: smooth; /* Deixa a rolagem suave */
+  scroll-padding-top: 800px; /* Altura do seu menu fixo ou 0 se não houver */
+}
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgb(253, 249, 244);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            /* Evita barra de rolagem horizontal indesejada */
+        }
+
+        /* PLANO DE FUNDO LATERAIS (Monitores Grandes) */
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            width: clamp(80px, 12vw, 218px);
+            height: 100vh;
+            background-image: url("Imagemm.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        body::before {
+            left: 0;
+            background-position: left center;
+        }
+
+        body::after {
+            right: 0;
+            background-position: right center;
+        }
+
+        /* HEADER */
+        .modo {
+            background-color: #0b40ee;
+            border-bottom: 5px solid #000000;
+            min-height: 10vh;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            gap: 15px;
+            top: 0;
+            z-index: 9999;
+        }
+
+        /* TÍTULO PRINCIPAL */
+        .titulo {
+            font-family: 'Poppins', sans-serif;
+            color: white;
+
+            font-size: clamp(22px, 2.5vw, 35px);
+
+            text-align: center;
+            font-weight: 600;
+            flex: 1;
+            margin: 0 20px;
+        }
+
+        .titulo-mapa {
+            color: black;
+            font-size: 19px;
+            font-weight: 300;
+            width: 80%;
+            margin: 15px auto;
+            text-align: center;
+
+        }
+
+        /* BOTÃO MENU */
+        .botaoo {
+            padding: 8px 14px;
+            background-color: #0b40ee;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 24px;
+            user-select: none;
+        }
+
+        .IFBA {
+            width: 80px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* CONTAINER DO CONTEÚDO (Centralizado e Responsivo) */
+        .conteudo {
+            width: min(1100px, calc(100% - 2 * clamp(80px, 12vw, 218px)));
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+            box-sizing: border-box;
+        }
+
+        /* CONTAINER DOS BOTÕES PRINCIPAIS */
+        .container-botoes {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: start;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        /* COLUNA DA ESTRUTURA DOS CARDS: Garante tamanho exatamente igual para todos */
+        .coluna-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            flex: 1 1 0px;
+            min-width: 220px;
+            max-width: 240px;
+        }
+
+        /* CARD AZUL PADRONIZADO */
+        .card-azul {
+            width: 100%;
+            background-color: #2563eb;
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: clamp(14px, 1.3vw, 18px);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            min-height: 30px;
+
+            /* Força todos os botões gatilho a terem a mesma altura inicial */
+        }
+
+        .card-azul-md {
+            width: 20%;
+            border-radius: 20px;
+            padding: 1px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: blue;
+            font-size: 12px;
+            font-weight: 400;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            min-height: 30px;
+            border: solid 1px;
+
+            /* Força todos os botões gatilho a terem a mesma altura inicial */
+        }
+
+
+        .card-azul-md label {
+            color: blue;
+            cursor: pointer;
+        }
+
+
+        /* Ajuste do texto interno dos cards informativos */
+        .card-azul p,
+        .card-azul h3,
+        .card-azul ul {
+            text-align: left;
+            font-weight: 300;
+            font-size: clamp(12px, 1vw, 14px);
+            width: 100%;
+        }
+
+        .card-azul h3 {
+            font-weight: 500;
+            font-size: clamp(13px, 1.2vw, 16px);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* SEÇÕES */
+        .secao {
+            display: none;
+        }
+
+        #inicio {
+            display: block;
+        }
+
+        .secao:target {
+            display: block;
+        }
+
+        body:has(.secao:target:not(#inicio)) #inicio {
+            display: none;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background-color: white;
+            position: fixed;
+            top: 0;
+            left: -265px;
+            border-right: solid 2px #000000;
+            transition: 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            background-color: #0b40ee;
+            color: white;
+            border-bottom: 5px solid #000000;
+            height: 10vh;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #menu:checked~.sidebar {
+            left: 0;
+        }
+
+        /* INTERAÇÕES DO MENU */
+        .sidebar a,
+        .botao {
+            display: block;
+            color: black;
+            text-decoration: none;
+            padding: 15px 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            background-color: white;
+            cursor: pointer;
+            border: none;
+            text-align: left;
+            width: 100%;
+        }
+
+        .sidebar a:hover,
+        .botao:hover {
+            background-color: #0b40ee;
+            color: white;
+        }
+
+        .aff:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .card-azul-re {
+
+            width: 100%;
+            background-color: #2563eb;
+            border-radius: 20px;
+
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            min-height: 30px;
+        }
+
+        .card-azul-re h3 {
+            margin: 0;
+        }
+
+        .card-azul-re>div {
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .card-azul-re a {
+            font-size: 16px;
+        }
+
+        .aff {
+            display: block;
+            width: 100%;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .afff a {
+            font-weight: 200px;
+            font-style: normal
+        }
+
+        /* ACCORDION DE INDICADORES */
+        .indicadores {
+            display: none;
+            background-color: #f8f9fa;
+        }
+
+        .indicadores a {
+            padding-left: 45px;
+            font-size: 14px !important;
+        }
+
+        #indicadores:checked~.sidebar .indicadores {
+            display: block;
+        }
+
+        .indicadoress {
+            display: none;
+            background-color: #f8f9fa;
+            overflow-y: auto;
+        }
+
+        .indicadoress a {
+            padding-left: 45px;
+            font-size: 14px !important;
+        }
+
+        #indicadoress:checked~.sidebar .indicadoress {
+            display: block;
+        }
+
+        #menu,
+        #indicadores,
+        #indicadoress,
+        #sobre,
+        #distritos-card,
+        #territorio-card,
+        #mapas-card,
+        #como,
+        #obj,
+        #mapas-demograficos,
+        #mapas-socioeconomicos,
+        #mapas-localizacao,
+        #fisicos {
+            display: none;
+        }
+
+        /* CARDS EXPANSÍVEIS (:checked em linha) */
+        .mostrar,
+        .distritos-mostrar,
+        .territorio-mostrar,
+        .mapas-mostrar,
+        .como,
+        .obj,
+        .mapas-demograficos,
+        .mapas-socioeconomicos,
+        .mapas-localizacao,
+        .fisicos {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(15px);
+            transition: 0.4s ease;
+            width: 100%;
+        }
+
+        #sobre:checked~main .mostrar,
+        #distritos-card:checked~main .distritos-mostrar,
+        #territorio-card:checked~main .territorio-mostrar,
+        #como:checked~main .como,
+        #obj:checked~main .obj,
+        #mapas-demograficos:checked~main .mapas-demograficos,
+        #mapas-socioeconomicos:checked~main .mapas-socioeconomicos,
+        #mapas-localizacao:checked~main .mapas-localizacao,
+        #fisicos:checked~main .fisicos {
+            max-height: 50000px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 15px;
+            width: 100%;
+
+        }
+
+        /* REGRA INDIVIDUAL PARA OS MAPAS INTERNOS */
+        #mapas-card:checked~main .mapas-mostrar {
+            max-height: 250px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 15px;
+        }
+
+        .fechar {
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .mdd:hover {
+            color: #0b40ee;
+            text-decoration: underline;
+            text-decoration-color: white;
+        }
+
+        /* RODAPÉ */
+        .rodape {
+            width: 100%;
+            background-color: rgb(46, 46, 46);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 998;
+            border-top: 2px solid #000000;
+        }
+
+        .rodape-container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .rodape p {
+            font-size: 14px;
+            margin: 4px 0;
+            line-height: 1.4;
+        }
+
+        /* Estilização padrão para imagens de mapa */
+        .imgmp img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .fontes {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 5px solid #2563eb;
+
+        }
+
+
+        /* MEDIA QUERIES */
+        @media (max-width: 1024px) {
+
+            body::before,
+            body::after {
+                display: none;
+            }
+
+            .titulo {
+                font-size: 25px;
+            }
+
+        }
+
+        main {
+            width: min(1400px, calc(100% - 80px));
+            margin: 0 auto;
+        }
+
+        .container {
+            padding-left: clamp(20px, 5vw, 80px);
+            padding-right: clamp(20px, 5vw, 80px);
+        }
+
+
+
+
+
+        @media (max-width: 768px) {
+            .modo {
+                flex-wrap: wrap;
+                padding: 12px 15px;
+            }
+
+            .titulo {
+                font-size: 25px;
+                order: 3;
+                width: 100%;
+                margin: 10px 0 0 0;
+                text-align: center;
+            }
+
+            .IFBA {
+                width: 60px;
+            }
+
+
+
+            h1 {
+                font-size: 25px !important;
+            }
+
+            .rodape p {
+                font-size: 12px;
+            }
+
+            .coluna-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .titulo {
+                font-size: 25px;
+            }
+
+            h1 {
+                font-size: 20px !important;
+            }
+        }
+
+        .card-azul:hover {
+            background-color: #000000;
+            color: white;
+        }
+
+        .md {
+            font-size: 16px;
+            color: #3c3c3c;
+
+        }
+
+        .titulomm {
+            font-weight: 700;
+            color: black;
+            font-size: 19px;
+            width: 80%;
+            margin: 15px auto;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        window.addEventListener('hashchange', () => {
+            document.getElementById('menu').checked = false;
+        });
+        document.addEventListener("copy", function (e) {
+
+            const texto = window.getSelection().toString().trim();
+
+            if (!texto) return;
+
+            const agora = new Date();
+
+            const meses = [
+                "jan.", "fev.", "mar.", "abr.", "maio", "jun.",
+                "jul.", "ago.", "set.", "out.", "nov.", "dez."
+            ];
+
+            const dataAcesso =
+                agora.getDate() + " " +
+                meses[agora.getMonth()] + " " +
+                agora.getFullYear();
+
+            const referencia =
+                `
+    
+    ──────────────────────────────
+    
+    Fonte:
+   FREIRE, Cláudio de Jesus Falcão Lino; ROSA, Ana Heloisa Prazeres; MOREIRA, Heitor de Sousa; SANTOS, Joélia Silva. Geotecnologia e Análise Socioespacial: Cartografia do Território de Identidade do Baixo Sul da Bahia. Instituto Federal da Bahia - Campus Valença, 2026.
+
+    
+    Disponível em: ${window.location.href}
+    
+    Acesso em: ${dataAcesso}.
+    
+    © Plataforma Cartografia do Território de Identidade do Baixo Sul da Bahia.
+    `;
+
+            e.clipboardData.setData(
+                "text/plain",
+                texto + referencia
+            );
+
+            e.preventDefault();
+        });
+    </script>
+</head>
+
+
+<body style="font-family: 'Poppins', sans-serif;">
+
+    <input type="checkbox" id="menu">
+    <input type="checkbox" id="indicadores">
+    <input type="checkbox" id="indicadoress">
+    <input type="checkbox" id="sobre">
+    <input type="checkbox" id="distritos-card">
+    <input type="checkbox" id="territorio-card">
+    <input type="checkbox" id="mapas-card">
+    <input type="checkbox" id="como">
+    <input type="checkbox" id="obj">
+    <input type="checkbox" id="mapas-demograficos">
+    <input type="checkbox" id="mapas-socioeconomicos">
+    <input type="checkbox" id="mapas-localizacao">
+    <input type="checkbox" id="fisicos">
+
+    <header class="modo" style="gap: 20px;">
+        <label for="menu" class="botaoo">☰</label>
+        
+        <div class="titulo">
+            GEOTECNOLOGIA E ANÁLISE SOCIOESPACIAL
+        </div>
+        <img src="IFBA.png" alt="Ícone do ifba" class="IFBA" style="height: 90px; width: 90px;">
+    </header>
+
+    <main class="conteudo">
+
+        <section id="inicio" class="secao">
+            <br>
+            <h1 style="text-align: center;font-size: 26px;">CARTOGRAFIA DO TERRITÓRIO DE IDENTIDADE DO BAIXO SUL DA
+                BAHIA</h1>
+            <br><br>
+
+            <div class="container-botoes">
+
+                <div class="coluna-card">
+                    <label for="sobre" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                        Sobre a Plataforma
+                    </label>
+
+                    <aside class="mostrar">
+                        <div style="display:flex; flex-direction:column; gap:20px; width: 100%;">
+
+                            <label for="como" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                                Como surgiu?
+                            </label>
+                            <aside class="como">
+                                <div class="card-azul">
+                                    <p
+                                        style="color: white; font-size: 14px; font-weight: 300; width:100%; text-align: center;text-align: left; text-justify: inter-word; margin-bottom: 10px;">
+                                        Essa plataforma foi desenvolvida por estudantes do curso técnico em Informática
+                                        do Instituto Federal da Bahia, a partir de um projeto de Iniciação Científica na
+                                        área de Geografia nos anos de 2025-2026, para disponibilizar dados e informações
+                                        científicas sobre a
+                                        realidade demográfica, socioeconômico e ambiental do Território do Baixo sul da
+                                        Bahia.
+                                    </p>
+                                </div>
+                            </aside>
+
+                            <label for="obj" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                                Objetivos
+                            </label>
+                            <aside class="obj">
+                                <div class="card-azul">
+                                    <p
+                                        style="color: white; font-size: 14px; font-weight: 300; width:100%; text-align: left; text-justify: inter-word; margin-top: 10px; margin-bottom: 10px;">
+                                        Disponibilizar informações demográficas, socioeconômicas e territoriais
+                                        do município de Valença e do Território de Identidade do Baixo Sul da Bahia,
+                                        contribuindo para pesquisas, estudos acadêmicos e planejamento territorial.</p>
+                                </div>
+                            </aside>
+
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="coluna-card">
+                    <label for="distritos-card" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                        Município de Valença
+                    </label>
+
+                    <aside class="distritos-mostrar">
+                        <div class="card-azul-re">
+
+
+                            <div
+                                style="display: flex; flex-direction: column;  font-size: 14px; font-weight: 300;flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px; gap: 10px; width: 100%;">
+                                <a href="#informacoes"
+                                    style=" font-size: 16px; font-weight: 700; text-decoration: none;"
+                                    class="aff">Informações
+                                </a>
+                                <a href="#Valença" style=" text-decoration: none;" class="aff">Valença
+                                    (Sede)</a>
+                                <a href="#Maricoabo" style=" text-decoration: none;" class="aff">Maricoabo</a>
+                                <a href="#Guaibim" style=" text-decoration: none;" class="aff">Guaibim</a>
+                                <a href="#Guerém" style=" text-decoration: none;" class="aff">Guerém</a>
+                                <a href="#SerraGrande" style=" text-decoration: none;" class="aff">Serra
+                                    Grande</a>
+                            </div>
+
+
+
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="coluna-card">
+                    <label for="territorio-card" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                        Território Do Baixo Sul
+                    </label>
+
+                    <aside class="territorio-mostrar">
+                        <div>
+                            <a class="card-azul" href="#caracterizacao"
+                                style="min-height: 30px; font-size: 16px; text-decoration: none;">Caracterização do
+                                território</a>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="coluna-card">
+                    <label for="mapas-card" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                        Mapas
+                    </label>
+
+                    <aside class="mapas-mostrar">
+                        <div style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+                            <div class="card-azul" style="min-height: 30px; font-size: 15px;">
+                                <a href="#MapasD"
+                                    style="color:white; text-align:center; text-decoration: none; width: 100%;">
+                                    Distritos de Valença
+                                </a>
+                            </div>
+                            <div class="card-azul" style="min-height: 30px; font-size: 15px;">
+                                <a href="#MapasT"
+                                    style="color:white; text-align:center; text-decoration: none; width: 100%;">
+                                    Território do Baixo Sul da Bahia
+                                </a>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="informacoes" class="secao">
+            <h1>Informações acerca do município de Valença</h1>
+            <br>
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                O município de Valença, localizado no Território do Baixo Sul, segundo a Lei Municipal nº 1.903, de 18
+                de setembro de 2007, é composto pelos seguintes distritos: Guaibim, Jiquiriçá, Guerém, Maricoabo, Serra
+                Grande e Orobó. Contudo, a delimitação administrativa apresentada por essa lei não é a mesma utilizada
+                pelo IBGE (2022), visto que o IBGE não estabelece critérios próprios na definição dos distritos, mas
+                cadastra e representa apenas as subdivisões oficiais, sendo estas informadas pelos municípios. Dessa
+                forma, caso não haja atualização dos dados pela administração pública, as nomenclaturas de algumas áreas
+                que o município reconhece como distritos podem aparecer de forma diferente nas informações estatísticas
+                do IBGE. Assim, para o censo 2022, o IBGE provavelmente utilizou a delimitação distrital contida na Lei
+                Municipal n° 1.343, de 23 de novembro de 1993, cujos distritos eram Valença, Guaibim, Guerém, Maricoabo
+                e Serra Grande.</p>
+            <br>
+            <div class="fontes">
+                <h3>Fontes</h3>
+                <ul style="list-style: none;">
+                    <li>
+                        VALENÇA (BA). Lei Municipal n.º 1.903, de 18 de setembro de 2007. Atualiza a Lei Municipal n.º
+                        1.343, de 23 de novembro de 1993, que estabelece os limites da zona urbana e distritos do
+                        Município
+                        de Valença, e cria e delimita os distritos de Jiquiriçá e Orobó. Disponível em:<a
+                            href="https://www.valenca.ba.leg.br/leis/legislacao-municipal/leis-de-2007/lei-1-903-2007-limites-das-zonas-urbanas-e-distritos.pdf?"
+                            target="_blank">https://www.valenca.ba.leg.br/leis/legislacao-municipal/leis-de-2007/lei-1-903-2007-limites-das-zonas-urbanas-e-distritos.pdf?</a>.
+                        Acesso em: 20 nov. 2025.
+                    </li>
+
+        </section>
+
+
+        <section id="caracterizacao" class="secao">
+            <h1>Caracterização do território</h1>
+            <br>
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                A Bahia tem 27 Territórios de Identidade. Dentre eles detaca-se o Baixo Sul, marcado pela rica
+                diversidade cultural, belezas naturais e forte presença de comunidades tradicionais, indígenas e
+                quilombolas, com destaque, segundo Souza e Carvalho (2021), para o grupo Pataxó Hã-Hã-Hãe, o qual inclui
+                etnias como Baenã, Pataxó Hã-Hã-Hãe, Kamakã, Tupinambá, Kariri-Sapuyá e Gueren. O Território do Baixo
+                Sul é composto por quinze municípios, sendo: Aratuípe, Cairu, Camamu, Gandu, Ibirapitanga, Igrapiúna,
+                Ituberá, Jaguaripe, Nilo Peçanha, Piraí do Norte, Presidente Tancredo Neves, Taperoá, Teolândia, Valença
+                e Wenceslau Guimarães. Segundo a Secretaria de Planejamento - SEPLAN (2017), a diversidade cultural,
+                econômica e dos aspectos naturais fez com que, em 2003, o Ministério do Desenvolvimento Agrário - MDA,
+                realizasse o planejamentos para o desenvolvimento rural dos estados brasileiros, visando a superação das
+                desigualdades sociais regionais. Esse processo visava a territorialização das regiões por meio de alguns
+                critérios socioeconômicos, associado aos aspectos do sentimento de pertencimento da população local, ou
+                seja, sua identidade territorial. Com isso, ocorreram mobilizações para a revelação dos territórios
+                entre 2003 e 2006, sendo legitimados como unidade de planejamento e gestão de políticas públicas
+                estaduais em 2007.
+            </p>
+            <br>
+            <p
+                style="color: black; font-size: 19px; font-weight: 800; width:100%;  text-align: center; text-justify: inter-word;">
+                TERRITÓRIO DE IDENTIDADE DO BAIXO SUL DA BAHIA</p>
+                <br>
+            <div style="align-items: center;">
+                <img src="mapa_localizacao_imagem.png" alt=""
+                    style="width: 100%; max-width: 800px; justify-self: anchor-center; display:flex ">
+            </div>
+            <div class="fontes">
+
+                <h3>Fontes</h3>
+
+                <ul style="list-style: none;">
+                    <li>
+                        BAHIA. Secretaria do Planejamento (SEPLAN). Plano Territorial de Desenvolvimento do Baixo Sul.
+                        Salvador, 2017. Disponível em:
+                        <a href="https://www.ba.gov.br/seplan/sites/site-seplan/files/2025-07/Plano%20Territorial%20de%20Desenvolvimento%20do%20Baixo%20Sul.pdf"
+                            target="_blank">
+                            https://www.ba.gov.br/seplan/sites/site-seplan/files/2025-07/Plano%20Territorial%20de%20Desenvolvimento%20do%20Baixo%20Sul.pdf.
+                            Acesso em: 13 nov. 2025
+                        </a>
+                    </li>
+                    <br>
+                    <li>
+                        SOUZA, Jurema Machado de Andrade; CARVALHO, Maria Rosário Carvalho. Pataxó Hã-Hã-Hãe. Instituto
+                        Socioambiental. 2021 Disponível em:
+                        <a href="https://pib.socioambiental.org/pt/Povo:Pataxó_Hã-Hã-Hãe#:~:text=Em%20sua%20totalidade%2C%20os%20índios,permanecendo%20a%20Reserva%20sub-judice"
+                            target="_blank">
+                            https://pib.socioambiental.org/pt/Povo:Pataxó_Hã-Hã-Hãe#:~:text=Em%20sua%20totalidade%2C%20os%20índios,permanecendo%20a%20Reserva%20sub-judice.
+                            Acesso: 27. Outubro, 2025
+                        </a>
+                    </li>
+
+                    <li>
+                        IBGE – Censo Demográfico 2022.
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
+        <section id="distritos" class="secao">
+            <h1>Distritos</h1>
+        </section>
+
+        <section id="dados" class="secao">
+            <h1>Dados</h1>
+
+            <div
+                style="max-width:600px; margin:25px auto; padding:20px; border:1px solid #ddd; border-radius:8px; text-align:center;">
+                <p style="margin:0 0 15px; color:#555;">
+                    Planilha com os dados territoriais utilizados para a elaboração dos mapas do Território do Baixo Sul
+                    da Bahia.
+                </p>
+
+                <a href="DADOS2022.território.xlsx" target="_blank"
+                    style="display:inline-block; padding:10px 18px; background:#0d6efd; color:#fff; text-decoration:none; border-radius:6px; font-weight:500;">
+                    Baixar planilha (.xlsx)
+                </a>
+            </div>
+            <div
+                style="max-width: 600px; margin: 25px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; text-align: center;">
+                <p style="margin: 0 0 15px; color: #555;">
+                    Link para download da plataforma utilizada para a elaboração dos mapas (QGIS 3.30.3).
+                </p>
+
+                <a href="https://www.qgis.org/download/" target="_blank"
+                    style="display: inline-block; padding: 10px 18px; background: #0d6efd; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 500;">
+                    https://www.qgis.org/download/
+                </a>
+            </div>
+        </section>
+
+        <section id="downloads" class="secao">
+            <h1>Downloads</h1>
+        </section>
+
+        <section id="MapasD" class="secao">
+            <div>
+                <h1 style="text-align: center">Distritos do município de Valença</h1>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: left; text-align: justify; text-justify: inter-word;">
+                    A análise dos mapas dos distritos do município de Valença nos permite compreender a fundo a
+                    organização territorial e os dados demográficos e socioeconômicos disponibilizados pelo IBGE (Censo
+                    2022).
+                </p>
+
+
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 1. Localização distrital do município de
+                            Valença-BA</strong>
+                    </p>
+                    <img src="Mapa Divisão Distrital de ValencaCN.png" loading="lazy" alt="Mapa da divisão distrital"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Divisão Político-Administrativa:</strong> O município é dividido em cinco distritos
+                        principais: a Sede (Valença), Guaibim, Guerém, Maricoabo e Serra Grande. Essa divisão facilita a
+                        gestão e a compreensão das diferentes realidades geográficas da região, que vão desde a zona
+                        costeira até o interior.
+                    </p>
+                </div>
+
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 2. População total por distritos do município de
+                            Valença-BA</strong>
+                    </p>
+                    <img src="população absoluta por distritoo.png" loading="lazy"
+                        alt="Mapa da população absoluta do município"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>População Absoluta:</strong> A distribuição populacional é altamente concentrada. O
+                        distrito da Sede (Valença) abriga a grande maioria dos habitantes (62.800), seguido por Serra
+                        Grande e Guerém. O distrito do Guaibim, apesar de seu forte apelo turístico, possui a menor
+                        população residente fixa.
+                    </p>
+                </div>
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 3. População Indígena por distritos do município de
+                            Valença-BA</strong>
+                    </p>
+                    <img src="Populacao_indigenaCN.png" loading="lazy" alt="Mapa da população indígena por distrito"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>População Indígena:</strong> A população indígena está concentrada no município de
+                        Valença, com destaque para o distrito de Guerém, que abriga a segunda maior parte dessa
+                        população,
+                        refletindo a presença histórica e cultural dos povos indígenas na região.
+                    </p>
+                </div>
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 4. População Quilombola por distritos do município de
+                            Valença-BA</strong>
+                    </p>
+                    <img src="Populacao_quilombola.png" loading="lazy" alt="Mapa da população quilombola por distrito"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>População Quilombola:</strong> A presença de comunidades quilombolas é significativa,
+                        especialmente no distrito de Valença (sede), que abriga a maior parte dessa população,
+                        refletindo a
+                        importância histórica e cultural dessas comunidades na região.
+                    </p>
+                </div>
+
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto;text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 5. Porcentagem da população alfabetizada por distritos
+                            do
+                            município de Valença-BA</strong>
+                    </p>
+                    <img src="População Alfabetizada por Distritoo.png" loading="lazy"
+                        alt="Mapa da população alfabetizada por distrito"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Taxa de Alfabetização Geral:</strong> Há uma variação importante na alfabetização de
+                        pessoas com 15 anos ou mais entre os distritos. O Guaibim e a Sede lideram com taxas na casa
+                        dos 88%, enquanto distritos mais rurais, como Guerém e Maricoabo, apresentam os menores
+                        índices,
+                        apontando a necessidade de maior atenção na educação básica nessas áreas.
+                    </p>
+                </div>
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 6. Rendimento nominal mensal médio dos indivíduos
+                            responsáveis pelos lares nos distritos do município de Valença-BA</strong>
+                    </p>
+                    <img src="Rendimento Nominal médioo.png" loading="lazy"
+                        alt="Mapa do rendimento nominal por distrito"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Rendimento Nominal Médio:</strong> O reflexo econômico do turismo e da urbanização
+                        fica
+                        evidente neste mapa. O distrito do Guaibim destaca-se com o maior rendimento médio mensal
+                        (próximo a R$ 5.971,00 devido à especulação imobiliária e comércio hoteleiro), contrastando
+                        fortemente com o Maricoabo, que possui a menor média de rendimento entre os responsáveis por
+                        domicílios.
+                    </p>
+                </div>
+
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 7. Taxa de arborização nos distritos do município de
+                            Valença-BA</strong>
+                    </p>
+                    <img src="ArborizaçãoCN (Domicílios sem árvores).png" alt="Mapa da Arborização por distrito"
+                        loading="lazy" style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Arborização: </strong>A análise da infraestrutura verde urbana revela severas
+                        disparidades na qualidade socioambientais do entorno dos domicílios. O distrito de Guerém
+                        apresenta o cenário
+                        mais crítico, com 73,0% dos seus domicílios sem arborização nas vias públicas, seguido de
+                        perto
+                        pela Sede (Valença), que registra 66,2%. Em contrapartida, o distrito de Maricoabo é o que
+                        apresenta as melhores condições relativas de arborização, com apenas 31,3% de domicílios
+                        desprovidos de cobertura vegetal em seu entorno, enquanto o distrito de Serra Grande carece
+                        de
+                        dados amostrais para essa categoria, o que pode indicar uma menor densidade populacional ou
+                        uma
+                        distribuição espacial mais dispersa.
+                    </p>
+                </div>
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 8. Taxa de alfabetização da população indígena de 15 anos
+                            ou mais
+                            nos
+                            distritos do município de Valença-BA</strong>
+                    </p>
+                    <img src="Alfabetização indígenaCNA.png" alt="Mapa da população indígena alfabetizada."
+                        loading="lazy" style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Alfabetização indígena: </strong>A taxa de alfabetização entre a população indígena
+                        apresenta uma variação significativa entre os distritos. O distrito de Guerém lidera com o
+                        índice ideal
+                        de 100% de alfabetização indígena, seguido por Serra Grande com 95,65%, indicando o êxito ou
+                        maior cobertura local
+                        de ações educacionais. Os distritos de Guaibim e Sede (Valença) registram índices
+                        intermediários
+                        de 85,71% e 79,22%,
+                        respectivamente. Em contrapartida, o distrito de Maricoabo apresenta a menor taxa de
+                        alfabetização indígena, com 65,51%,
+                        o que aponta desafios específicos enfrentados por essa população no acesso à educação
+                        formal.
+                    </p>
+                </div>
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 9. Taxa de alfabetização da população quilombola de 15 anos
+                            ou mais
+                            nos
+                            distritos do município de Valença-BA</strong>
+                    </p>
+                    <img src="Alfabetizacao quilombola CNN.png"
+                        alt="Mapa da população quilombola alfabetizada por distrito" loading="lazy"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Alfabetização quilombola:</strong> A taxa de alfabetização entre a população
+                        quilombola
+                        também cumpre um papel fundamental na identificação de vulnerabilidades históricas das
+                        comunidades tradicionais de Valença.
+                        A espacialização desse indicador permite mapear o acesso à educação formal e o letramento
+                        dessas
+                        populações nas áreas rurais e
+                        periféricas, servindo como uma ferramenta estratégica para subsidiar políticas de igualdade
+                        racial e de valorização da educação
+                        do campo nos distritos afetados.
+                    </p>
+                </div>
+                <div class="imgmp" style="text-align: center; margin-bottom: 40px;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong style="font-weight:700">Mapa 10. Porcentagem de iluminação pública nos distritos do
+                            município de Valença-BA</strong>
+                    </p>
+                    <img src="porcentagem de domicílios sem iluminação públicaLE.png" loading="lazy"
+                        alt="Mapa da iluminação pública por distrito"
+                        style="width: 100%; max-width: 800px; margin: 0 auto;">
+                    <p
+                        style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                        <strong>Iluminação pública por distrito: </strong>A análise da infraestrutura urbana revela
+                        disparidades
+                        acentuadas de cobertura entre as regiões. O déficit desse serviço essencial manifesta-se de
+                        forma expressiva nas áreas rurais:
+                        o distrito de Mariocabo apresenta a maior porcentagem de domicílios sem iluminação pública no
+                        entorno, registrando 17,9%,
+                        seguido por Guerém com 7,77% de desabastecimento. Em contrapartida, a Sede (Valença) e o
+                        Guaibim contam com excelente infraestrutura
+                        consolidada, exibindo taxas residuais mínimas de falta de iluminação (1,36% e 1,96%
+                        respectivamente), enquanto o distrito de
+                        Serra Grande carece de dados declarados para esta variável.
+                    </p>
+                </div>
+
+
+
+            </div>
+        </section>
+
+        <section id="MapasT" class="secao">
+            <h1 style="text-align: center;">Mapas do Território</h1>
+
+            <!-- LOCALIZAÇÃO -->
+            <div style="margin-top:20px; margin-bottom:5px" class="card-azul-md">
+                <label for="mapas-localizacao" class="md">Localização</label>
+            </div>
+
+            <aside class="mapas-localizacao">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 1. Localização do Território de Identidade do Baixo Sul da
+                        Bahia</strong>
+                </p>
+                <img src="mapa_localizacao_imagem.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                    <p  style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">O Território de Identidade do Baixo Sul da Bahia é composto por 15 municípios, sendo sete deles banhados pelo Oceano Atlântico,  fator que os tornam atrativos para atividades turísticas, enquanto os demais municípios apresentam outras diversidades culturais e sociais relacionadas ao processo de formação territorial.</p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 2. Rodovias do Território de Identidade do Baixo Sul da Bahia</strong>
+                </p>
+                <img src="HEITOR.png" loading="lazy" style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                <p style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">O mapa apresenta as áreas urbanas do território, que correspondem à cidades de pequeno porte, com destaque para Valença, a qual exerce uma centralidade na hierarquia urbana por oferecer serviços diversos, como saúde, educação e lazer.</p>
+            </aside>
+
+            <!-- DEMOGRÁFICOS -->
+            <div style="margin-bottom:5px" class="card-azul-md">
+                <label for="mapas-demograficos" class="md">Demográficos</label>
+            </div>
+
+            <aside class="mapas-demograficos">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 3. População total dos municípios do Território de Identidade do Baixo
+                        Sul da
+                        Bahia</strong>
+                </p>
+                <img src="mapa_populacao_imagem.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                   <p style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">A população geral do território do Baixo Sul encontra-se, em sua maioria, ao norte, principalmente no município de Valença, sendo o mais populoso, enquanto Nilo Peçanha, Piraí do Norte e Igrapiúna detêm a menor parcela da população do território.</p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 4. População indígena no Território de Identidade
+                        do Baixo Sul da Bahia,
+                        2026</strong>
+                </p>
+                <img src="heitor_população_6.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    A população indígena está presente na maior parte
+                    do território, com destaque para os municípios de Valença e Camamu. O único município que não tem
+                    registro de povos indígenas é Teolândia. Portanto, é um segmento social que possui
+                    representatividade e
+                    demanda ações efetivas do poder público e da sociedade civil para assegurar os direitos
+                    constitucionais.</p>
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 5. População quilombola no Território de Identidade
+                        do Baixo Sul da Bahia,
+                        2026</strong>
+                </p>
+                <img src="heitor_população_7.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">A população quilombola possui representatividade em todo território, exceto em Piraí do Norte. Já os municípios de Valença, Cairu, Wenceslau Guimarães e Camamu se destacam pelo quantitativo. </p>
+
+            </aside>
+
+            <!-- SOCIOECONÔMICOS -->
+            <div class="card-azul-md">
+                <label for="mapas-socioeconomicos" class="md">Socioeconômicos</label>
+            </div>
+
+            <aside class="mapas-socioeconomicos">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 6. Porcentagem das pessoas alfabetizadas de 50 anos ou mais de idade
+                        no
+                        Território de
+                        Identidade do Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="mapa.ALFA2022.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    O mapa apresenta os dados do Censo Demográfico de 2022, realizado pelo IBGE, e evidencia a
+                    distribuição
+                    espacial do percentual de pessoas, por municípios, com 50 anos ou mais alfabetizadas no Território
+                    de
+                    Identidade do Baixo Sul da Bahia.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 7. Porcentagem dos domicílios sem banheiro no Território de Identidade
+                        do Baixo Sul da Bahia,
+                        2026</strong>
+                </p>
+                <img src="mapa_azul__.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    Em todos os municípios do território existe concentração de riqueza, a qual é representada pela quantidade de banheiros nos domicílios, exceto em Igrapiúna, onde não foi registrado nenhum dado para esse indicador, por outro lado, Valença destaca-se como município com maior quantidade de domicílios com 4 banheiros.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 8. Porcentagem dos domicílios indígenas permanentemente ocupados com
+                        destinação inadequada do lixo
+                        doméstico no
+                        Território de
+                        Identidade do Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="Indi.lixoERRADOcn.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    O mapa evidencia o percentual de domicílios permanentemente ocupados com destinação inadequada de
+                    resíduos
+                    sólidos, incluindo lixo queimado, enterrado ou descartado em terrenos baldios, encostas ou áreas
+                    públicas
+                    na Região do Baixo Sul da Bahia.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 9. Porcentagem dos domicílios indígenas permanentemente ocupados com
+                        destinação do esgoto doméstico
+                        diretamente
+                        em corpos d'água
+                        (rios, córregos, lagos ou mar) no Território de Identidade do Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="Esgotamento.IND.C_N.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    O mapa evidencia o percentual de domicílios permanentemente ocupados no Território de Identidade do
+                    Baixo
+                    Sul da Bahia, com a destinação inadequada do esgoto doméstico em corpos hídricos.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 10. Porcentagem dos domicílios indígenas permanentemente ocupados no
+                        Território
+                        de Identidade do
+                        Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="Domi.indiC_N.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    O mapa apresenta os dados do Censo Demográfico de 2022, realizado pelo IBGE, e evidencia a
+                    distribuição
+                    espacial do percentual de domicílios pertencentes aos povos originários nos municípios do Território
+                    de
+                    Identidade do Baixo Sul da Bahia. Observa-se maior concentração desse indicador nos municípios de
+                    Camamu e
+                    Valença, que se destacam em relação aos demais municípios do território.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 11. Porcentagem dos domicílios com destinação inadequada do lixo
+                        doméstico no Território de
+                        Identidade do Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="mapa.lixo_2.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align:
+                    justify; text-justify: inter-word;">
+                    O mapa apresenta dados do Censo Demográfico de 2022, realizado pelo IBGE, evidenciando a
+                    distribuição espacial do percentual de domicílios permanentemente ocupados com destinação inadequada
+                    de resíduos sólidos, incluindo lixo queimado, enterrado ou descartado em terrenos baldios, encostas,
+                    rios, praias ou áreas públicas no Território de Identidade do Baixo Sul da Bahia.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 12. Porcentagem dos domicílios com destinação do esgoto doméstico
+                        diretamente
+                        em corpos d'água
+                        (rios, córregos, lagos ou mar) no Território de Identidade do Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="mapa.esgoto.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align:
+                    justify; text-justify: inter-word;">
+                    O mapa apresenta dados do Censo Demográfico de 2022, realizado pelo IBGE, evidenciando a
+                    distribuição espacial do percentual de domicílios permanentemente ocupados cujo esgoto doméstico é
+                    descartado diretamente em corpos hídricos no Território de Identidade do Baixo Sul da Bahia.
+                </p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 13. Porcentagem dos domicílios quilombolas permanentemente ocupados no
+                        Território de Identidade
+                        do Baixo Sul da Bahia, 2026</strong>
+                </p>
+                <img src="Domi.quilomboC_N.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    O mapa apresenta dados do Censo Demográfico de 2022, realizado pelo IBGE, evidenciando a
+                    distribuição espacial do percentual de domicílios quilombolas permanentemente ocupados no Território
+                    de Identidade do Baixo Sul da Bahia.
+                </p>
+
+            </aside>
+
+            <!-- FÍSICOS -->
+            <div class="card-azul-md" style="margin-top: 5px;">
+                <label for="fisicos" class="md">Físicos</label>
+            </div>
+
+            <aside class="fisicos">
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 14. Relevo do Território de Identidade do Baixo Sul da Bahia</strong>
+                </p>
+                <img src="HEITOR_3.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                    <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;"> Assim como no mapa sobre deslizamentos, os municípios que apresentam terrenos forte ondulado e montanhoso ou ondulado também se encontram mais a oeste do Baixo Sul, sendo mais suscetíveis a deslizamentos de terra, enquanto as áreas mais próximas do litoral possuírem um relevo plano.</p>
+
+                <br><br>
+
+                <p
+                    style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">
+                    <strong class="titulomm">Mapa 15. Suscetibilidade a deslizamentos</strong>
+                </p>
+                <img src="HEITOR_2.png" loading="lazy"
+                    style="width:100%; max-width:800px; margin:0 auto; display:block;">
+                    <p style="color: black; font-size: 19px; font-weight: 300; width:80%; margin: 15px auto; text-align: justify; text-justify: inter-word;">Há uma maior suscetibilidade a deslizamento nas áreas mais distantes do litoral, de modo que, à medida que os territórios se afastam da costa litorânea, em direção ao oeste, as condições variam de muito baixa à alta. Logo, são regiões que precisam de planejamento urbano para mitigar os riscos hidrogeomorfológicos. </p>
+
+
+
+            </aside>
+
+
+
+        </section>
+        <section id="Valença" class="secao">
+
+            <h1>Informações sobre Valença (Sede) </h1>
+            <br>
+
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                O distrito sede de Valença possui uma trajetória histórica que remonta ao período colonial, quando foi
+                inicialmente criado como um território subordinado a Cairu, sob a denominação de Santíssimo Coração de
+                Jesus de Valença.
+                Sua elevação à categoria de vila ocorreu em 1799, vindo a tornar-se cidade oficialmente em 10 de
+                novembro de 1849.
+                A Sede é o centro da vida cultural e econômica, destacando-se pelo pioneirismo industrial ao
+                inaugurar, em 1844, a Fábrica de Tecidos Todos os Santos, a primeira indústria da Bahia.
+                O distrito preserva um rico patrimônio arquitetônico com sobrados dos séculos XVIII e XIX e é detentor
+                de títulos honoríficos que exaltam sua bravura: "A Decidida", por sua participação na Guerra da
+                Independência em 1823, e "A Hospitaleira", por ter acolhido sobreviventes de navios bombardeados na 2ª
+                Guerra Mundial.
+                Foi também na Sede que se instalou o primeiro banco de sangue da região, em 1942, no prédio do
+                Sindicato dos Trabalhadores da Indústria de Fiação e Tecelagem.
+                Religiosamente, o distrito é dedicado ao seu padroeiro, o Sagrado Coração de Jesus.
+            </p>
+
+            <img src="Mapa_Dist_V.png" loading="lazy" alt="Mapa do distrito de Valença"
+                style="width: 100%; max-width: 800px; margin: 0 auto; align-items: center; display: flex; justify-content: center;">
+
+            <div class="fontes">
+
+                <h3>Fontes</h3>
+
+                <ul style="list-style: none;">
+                    <li>
+                        Prefeitura Municipal de Valença. Dados Municipais.
+                        <a href="https://www.valenca.ba.gov.br/Site/dadosmunicipais" target="_blank">
+                            https://www.valenca.ba.gov.br/Site/dadosmunicipais
+                        </a>
+                    </li>
+
+                    <li>
+                        IBGE – Censo Demográfico 2022.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="Maricoabo" class="secao">
+            <h1>Informações sobre Maricoabo</h1>
+            <br>
+
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                O distrito de Maricoabo foi integrado ao município de Valença em 27 de maio de 1882, através da lei
+                provincial nº 2.288.
+                Em seus registros históricos e legislativos, a localidade era anteriormente denominada São Félix de
+                Maricoabo.
+                Assim como Guerém, sua criação faz parte do processo de expansão territorial e administrativa ocorrido
+                no final do século XIX, consolidando a organização das terras valencianas naquela época.
+            </p>
+
+            <img src="Mapa_Dist_M.png" loading="lazy" alt="Mapa do distrito de Maricoabo"
+                style="width: 100%; max-width: 800px; margin: 0 auto; align-items: center; display: flex; justify-content: center;">
+
+            <div class="fontes">
+                <h3>Fontes</h3>
+
+                <ul style="list-style: none;">
+                    <li>
+                        Prefeitura Municipal de Valença. Dados Municipais.
+                        <a href="https://www.valenca.ba.gov.br/Site/dadosmunicipais" target="_blank">
+                            https://www.valenca.ba.gov.br/Site/dadosmunicipais
+                        </a>
+                    </li>
+
+                    <li>
+                        IBGE – Censo Demográfico 2022.
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
+        <section id="Guaibim" class="secao">
+            <h1>Informações sobre Guaibim</h1>
+            <br>
+
+
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                Criado em 1999, o distrito de Guaibim é a unidade administrativa mais jovem do município, mas
+                consolidou-se como o principal polo turístico da região.
+                O distrito é famoso pela Praia de Guaibim, considerada uma das mais procuradas de todo o litoral
+                baiano, caracterizando-se por ondas moderadas em mar aberto que atraem surfistas para campeonatos
+                regionais anuais.
+                Além do lazer à beira-mar, Guaibim é um ponto estratégico de acesso para o complexo turístico de Morro
+                de São Paulo e Boipeba, oferecendo serviços de transporte por escunas pelo arquipélago.
+                A natureza do distrito é marcada por um vasto patrimônio ambiental que inclui o Rio Una, extensos
+                manguezais, reservas de Mata Atlântica e praias adjacentes mais desertas, como Ponta Grossa e Taquari.
+            </p>
+
+            <img src="Mapa_Dist_Guaibim2.png" loading="lazy" alt="Mapa do distrito de Guaibim"
+                style="width: 100%; max-width: 800px; margin: 0 auto; align-items: center; display: flex; justify-content: center;">
+
+            <div class="fontes">
+                <h3>Fontes</h3>
+
+                <ul style="list-style: none;">
+                    <li>
+                        Prefeitura Municipal de Valença. Dados Municipais.
+                        <a href="https://www.valenca.ba.gov.br/Site/dadosmunicipais" target="_blank">
+                            https://www.valenca.ba.gov.br/Site/dadosmunicipais
+                        </a>
+                    </li>
+
+                    <li>
+                        IBGE – Censo Demográfico 2022.
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
+        <section id="Guerém" class="secao">
+            <h1>Informações sobre Guerém</h1>
+            <br>
+
+
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                O distrito de Guerém foi estabelecido em meados do século XIX, tendo sua criação oficializada pela lei
+                provincial nº 300, em 23 de maio de 1848.
+                Sua fundação ocorreu no contexto da transição administrativa de Valença, apenas um ano antes de o
+                núcleo principal deixar de ser vila para se tornar cidade.
+                Embora as fontes não detalhem aspectos econômicos atuais específicos para este distrito, ele
+                representa uma das divisões territoriais históricas mais antigas que compõem a estrutura municipal.
+            </p>
+
+            <img src="Mapa_Dist_Gue.png" loading="lazy" alt="Mapa do distrito de Guerém"
+                style="width: 100%; max-width: 800px; margin: 0 auto; align-items: center; display: flex; justify-content: center;">
+
+            <div class="fontes">
+                <h3>Fontes</h3>
+
+                <ul style="list-style: none;">
+                    <li>
+                        Prefeitura Municipal de Valença. Dados Municipais.
+                        <a href="https://www.valenca.ba.gov.br/Site/dadosmunicipais" target="_blank">
+                            https://www.valenca.ba.gov.br/Site/dadosmunicipais
+                        </a>
+                    </li>
+                    <li>
+                        IBGE – Censo Demográfico 2022.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="SerraGrande" class="secao">
+            <h1>Informações sobre Serra Grande</h1>
+            <br>
+            <p
+                style="color: black; font-size: 19px; font-weight: 300; width:100%; text-align: left; text-align: justify; text-justify: inter-word;">
+                Estabelecido no início do século XX, o distrito de Serra Grande foi oficialmente criado no ano de 1911.
+                Ele integra a diversidade geográfica do município, que no total abriga uma população de mais de 97 mil
+                habitantes e possui um clima predominantemente tropical úmido.
+                Sua formação administrativa completa o quadro de distritos que, junto à Sede, Guerém, Maricoabo e
+                Guaibim, formam a identidade do município de Valença.
+            </p>
+            <br>
+
+            <img src="Mapa_Dist_S.png" loading="lazy" alt="Mapa do distrito de Serra Grande"
+                style="width: 100%; max-width: 800px; margin: 0 auto; align-items: center; display: flex; justify-content: center;">
+                <br>
+
+            <div class="fontes">
+                <h3>Fontes</h3>
+
+                <ul style="list-style: none;">
+                    <li>
+                        Prefeitura Municipal de Valença. Dados Municipais.
+                        <a href="https://www.valenca.ba.gov.br/Site/dadosmunicipais" target="_blank">
+                            https://www.valenca.ba.gov.br/Site/dadosmunicipais
+                        </a>
+                    </li>
+
+                    <li>
+                        IBGE – Censo Demográfico 2022.
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape-container">
+            <p style="color: rgba(255, 255, 255, 0.719);">
+                Plataforma de Mapas Demográficos - Valença-BA
+            </p>
+            <p style="font-weight: 300; color: rgba(255, 255, 255, 0.411)">
+                Dados retirados do censo demográfico 2022 - IBGE
+            </p>
+        </div>
+    </footer>
+
+    <aside class="sidebar">
+        <header class="sidebar-header">
+            <span style="margin-left: 20px; color: white; font-size: 22px; text-align: center; font-weight: 700;">
+                Menu
+            </span>
+            <label for="menu" class="fechar">
+                <span style="color: white; padding-top: 20px; width: 60px;">&times;</span>
+            </label>
+        </header>
+
+        <div style="font-weight: 400; font-size: 18px; min-width: 90px;">
+            <a href="#inicio">Início</a>
+            <a href="#dados" style="text-decoration:none;" class="afff">Dados</a>
+            <a href="#caracterizacao" style="text-decoration:none;" class="afff">Caracterização do Território</a>
+
+            <label for="indicadoress" class="botao">Distritos</label>
+
+            <aside class="indicadoress">
+                <a href="#informacoes" style=" text-decoration: none;" class="afff">Informações</a>
+                <a href="#Valença" style=" text-decoration: none;" class="afff">Valença (Sede)</a>
+                <a href="#Maricoabo" style=" text-decoration: none;" class="afff">Maricoabo</a>
+                <a href="#Guaibim" style=" text-decoration: none;" class="afff">Guaibim</a>
+                <a href="#Guerém" style=" text-decoration: none;" class="afff">Guerém</a>
+                <a href="#SerraGrande" style=" text-decoration: none;" class="afff">Serra Grande</a>
+
+
+            </aside>
+
+            <label for="indicadores" class="botao">Indicadores</label>
+
+            <aside class="indicadores">
+
+                <a href="#MapasD" style="font-size: 12px;">Mapas por distritos</a>
+                <a href="#MapasT" style="font-size: 12px;">Mapas por território</a>
+
+            </aside>
+
+
+        </div>
+    </aside>
+
+</body>
+
+</html>
