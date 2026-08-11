@@ -18,7 +18,7 @@
 
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family:"'Roboto', sans-serif;'";
             background-color: rgb(253, 249, 244);
             min-height: 100vh;
             position: relative;
@@ -52,7 +52,7 @@
 
         /* HEADER */
         .modo {
-            background-color: #0b40ee;
+            background-color: #032c85;
             border-bottom: 5px solid #000000;
             min-height: 10vh;
             padding: 15px 20px;
@@ -67,7 +67,7 @@
 
         /* TÍTULO PRINCIPAL */
         .titulo {
-            font-family: 'Poppins', sans-serif;
+            
             color: white;
 
             font-size: clamp(22px, 2.5vw, 35px);
@@ -91,7 +91,7 @@
         /* BOTÃO MENU */
         .botaoo {
             padding: 8px 14px;
-            background-color: #0b40ee;
+            background-color: #032c85;
             color: white;
             cursor: pointer;
             border-radius: 5px;
@@ -137,7 +137,7 @@
         /* CARD AZUL PADRONIZADO */
         .card-azul {
             width: 100%;
-            background-color: #2563eb;
+            background-color: #032c85;
             border-radius: 20px;
             padding: 10px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
@@ -152,6 +152,26 @@
             min-height: 30px;
 
             /* Força todos os botões gatilho a terem a mesma altura inicial */
+        }
+        .card-azul-acc{
+            background-color: #1a51c9;
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: clamp(14px, 1.3vw, 18px);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            min-height: 30px;
+            width: 100%;
+            
+            
+            
+        
         }
 
         .card-azul-md {
@@ -230,7 +250,7 @@
         }
 
         .sidebar-header {
-            background-color: #0b40ee;
+            background-color: #032c85;
             color: white;
             border-bottom: 5px solid #000000;
             height: 10vh;
@@ -251,7 +271,7 @@
             color: black;
             text-decoration: none;
             padding: 15px 25px;
-            font-family: 'Poppins', sans-serif;
+            
             font-size: 18px;
             background-color: white;
             cursor: pointer;
@@ -262,7 +282,7 @@
 
         .sidebar a:hover,
         .botao:hover {
-            background-color: #0b40ee;
+            background-color: #1a51c9;
             color: white;
         }
 
@@ -274,7 +294,7 @@
         .card-azul-re {
 
             width: 100%;
-            background-color: #2563eb;
+            background-color: #1a51c9;
             border-radius: 20px;
 
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
@@ -415,7 +435,7 @@
         }
 
         .mdd:hover {
-            color: #0b40ee;
+            color: #1a51c9;
             text-decoration: underline;
             text-decoration-color: white;
         }
@@ -537,7 +557,7 @@
             }
         }
 
-        .card-azul:hover {
+        .card-azul-acc:hover {
             background-color: #000000;
             color: white;
         }
@@ -612,7 +632,7 @@
 </head>
 
 
-<body style="font-family: 'Poppins', sans-serif;">
+<body style="font-family:'Roboto', sans-serif;">
 
     <input type="checkbox" id="menu">
     <input type="checkbox" id="indicadores">
@@ -655,11 +675,11 @@
                     <aside class="mostrar">
                         <div style="display:flex; flex-direction:column; gap:20px; width: 100%;">
 
-                            <label for="como" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                            <label for="como" class="card-azul-acc" style="min-height: 30px; font-size: 16px;">
                                 Como surgiu?
                             </label>
                             <aside class="como">
-                                <div class="card-azul">
+                                <div class="card-azul-acc">
                                     <p
                                         style="color: white; font-size: 14px; font-weight: 300; width:100%; text-align: center;text-align: left; text-justify: inter-word; margin-bottom: 10px;">
                                         Essa plataforma foi desenvolvida por estudantes do curso técnico em Informática
@@ -672,11 +692,11 @@
                                 </div>
                             </aside>
 
-                            <label for="obj" class="card-azul" style="min-height: 30px; font-size: 16px;">
+                            <label for="obj" class="card-azul-acc" style="min-height: 30px; font-size: 16px;">
                                 Objetivos
                             </label>
                             <aside class="obj">
-                                <div class="card-azul">
+                                <div class="card-azul-acc">
                                     <p
                                         style="color: white; font-size: 14px; font-weight: 300; width:100%; text-align: left; text-justify: inter-word; margin-top: 10px; margin-bottom: 10px;">
                                         Disponibilizar informações demográficas, socioeconômicas e territoriais
@@ -726,7 +746,7 @@
 
                     <aside class="territorio-mostrar">
                         <div>
-                            <a class="card-azul" href="#caracterizacao"
+                            <a class="card-azul-acc" href="#caracterizacao"
                                 style="min-height: 30px; font-size: 16px; text-decoration: none;">Caracterização do
                                 território</a>
                         </div>
@@ -740,13 +760,13 @@
 
                     <aside class="mapas-mostrar">
                         <div style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
-                            <div class="card-azul" style="min-height: 30px; font-size: 15px;">
+                            <div class="card-azul-acc" style="min-height: 30px; font-size: 15px;">
                                 <a href="#MapasD"
                                     style="color:white; text-align:center; text-decoration: none; width: 100%;">
                                     Distritos de Valença
                                 </a>
                             </div>
-                            <div class="card-azul" style="min-height: 30px; font-size: 15px;">
+                            <div class="card-azul-acc" style="min-height: 30px; font-size: 15px;">
                                 <a href="#MapasT"
                                     style="color:white; text-align:center; text-decoration: none; width: 100%;">
                                     Território do Baixo Sul da Bahia
