@@ -73,6 +73,13 @@
             z-index: 9999;
         }
 
+        /* GRUPO DOS BOTÕES DA ESQUERDA (Menu + Voltar) */
+        .grupo-botoes-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         /* TÍTULO PRINCIPAL */
         .titulo {
 
@@ -222,6 +229,29 @@
             border-radius: 5px;
             font-size: 24px;
             user-select: none;
+        }
+
+        /* BOTÃO VOLTAR (SVG) */
+        .botao-voltar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            background-color: #032c85;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            user-select: none;
+        }
+
+
+
+        .botao-voltar svg {
+            width: 24px;
+            height: 40px;
+            transform: scaleX(-1);
+            /* espelha a seta para apontar "para trás" */
         }
 
         .IFBA {
@@ -766,6 +796,18 @@
 
             e.preventDefault();
         });
+
+        // BOTÃO VOLTAR: retorna à aba/seção anterior no histórico do navegador
+        function voltarAbaAnterior() {
+            if (window.location.hash && window.location.hash !== "#inicio") {
+                history.back();
+            } else {
+                window.location.hash = "inicio";
+            }
+        }
+
+
+
     </script>
 </head>
 
@@ -787,7 +829,18 @@
     <input type="checkbox" id="fisicos">
 
     <header class="modo">
-        <label for="menu" class="botaoo">☰</label>
+        <div class="grupo-botoes-header">
+            <label for="menu" class="botaoo">☰</label>
+            <button type="button" class="botao-voltar" onclick="voltarAbaAnterior()"
+                aria-label="Voltar para a aba anterior" title="Voltar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="40" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-forward">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M15 11l4 4l-4 4m4 -4h-11a4 4 0 0 1 0 -8h1" />
+                </svg>
+            </button>
+        </div>
 
         <div class="titulo">
             GEOTECNOLOGIA E ANÁLISE SOCIOESPACIAL
